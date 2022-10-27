@@ -192,7 +192,7 @@ cython_debug/
 # Ignore code-workspaces
 *.code-workspace
 
-*/.terraform/
+.terraform/
 
 # .tfstate files
 *.tfstate
