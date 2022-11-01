@@ -72,7 +72,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
             version = "1"
             output_artifacts = ["tf-code"]
             configuration = {
-                FullRepositoryId = "LasseBirk96/Exam-Project-2022/exam_pipeline"
+                FullRepositoryId = "LasseBirk96/Exam-Project-2022"
                 BranchName   = "main"
                 ConnectionArn = var.codestar_connector_credentials
                 OutputArtifactFormat = "CODE_ZIP"
