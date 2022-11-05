@@ -6,12 +6,15 @@ from ..Connection.connector import establish_connection
 from LogicLayer.Entities.BankAccount import BankAccount
 from BankingLogger.logger_creator import create_logger as log
 
+
 def persist_bank_account(email, account_number, CVV, pin_code, balance):
-    '''This method persists a bank account'''
+    """This method persists a bank account"""
     hashed_account_number = hash_value(account_number)
     hashed_CVV = hash_value(CVV)
     hashed_pin_code = hash_value(pin_code)
-    bank_account = BankAccount(email, hashed_account_number, hashed_CVV, hashed_pin_code, balance)
+    bank_account = BankAccount(
+        email, hashed_account_number, hashed_CVV, hashed_pin_code, balance
+    )
     sql_query = "INSERT INTO bank_account (email, account_number, CVV, pin_code, balance) VALUES (%s, %s, %s, %s, %s)"
     connection = establish_connection()
     cursor = connection.cursor()
@@ -25,6 +28,7 @@ def persist_bank_account(email, account_number, CVV, pin_code, balance):
     finally:
         if connection is not None:
             connection.close()
+
 
 def handle_payment(email, account_number, CVV, pin_code, price):
     if validate_data(email, account_number, CVV, pin_code):
@@ -46,6 +50,7 @@ def handle_payment(email, account_number, CVV, pin_code, price):
             if connection is not None:
                 connection.close()
 
+
 def get_balance_from_account(email):
     sql_query = "SELECT balance FROM bank_account WHERE email = %s"
     connection = establish_connection()
@@ -63,9 +68,11 @@ def get_balance_from_account(email):
             connection.close()
 
 
-#This method is so fucking scuffed
+# This method is so fucking scuffed
 def validate_data(email, account_number, CVV, pin_code):
-    sql_query = "SELECT account_number, CVV, pin_code FROM bank_account WHERE email = %s"
+    sql_query = (
+        "SELECT account_number, CVV, pin_code FROM bank_account WHERE email = %s"
+    )
     connection = establish_connection()
     cursor = connection.cursor()
     try:
