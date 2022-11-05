@@ -6,7 +6,7 @@ from LogicLayer.Entities.DishObject.Dish import Dish
 
 def test_initializing_of_dish_object():
     try:
-        s = Dish("Tikka Masala", "A lovely little thing", ["Curry"], 515)
+        s = Dish("Tikka Masala", "A lovely little thing", ["Curry"], 55)
         assert ("Tikka Masala", "A lovely little thing", ["Curry"], 55) == (s.name, s.description, s.ingredients, s.price)
     except AssertionError:
         print("ERROR IN 'test_initializing_of_dish_object'")
