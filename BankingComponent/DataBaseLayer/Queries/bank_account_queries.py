@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from ..Utility.hashing_methods import hash_value, check_hashed_value
+from ..Utility.HashMethods import HashMethods
 from ..Connection.connector import establish_connection
 from LogicLayer.Entities.BankAccount import BankAccount
 from BankingLogger.logger_creator import create_logger as log
@@ -9,9 +9,10 @@ from BankingLogger.logger_creator import create_logger as log
 
 def persist_bank_account(email, account_number, CVV, pin_code, balance):
     """This method persists a bank account"""
-    hashed_account_number = hash_value(account_number)
-    hashed_CVV = hash_value(CVV)
-    hashed_pin_code = hash_value(pin_code)
+    hasher = HashMethods()
+    hashed_account_number = hasher.hash_value(account_number)
+    hashed_CVV = hasher.hash_value(CVV)
+    hashed_pin_code = hasher.hash_value(pin_code)
     bank_account = BankAccount(
         email, hashed_account_number, hashed_CVV, hashed_pin_code, balance
     )
@@ -42,7 +43,7 @@ def handle_payment(email, account_number, CVV, pin_code, price):
             new_balance = current_balance - price
             cursor.execute(sql_query, (new_balance, email))
             connection.commit()
-            log().info("ACCOUNT: " + email + " SUCCESFUL PAYMENT")
+            log().info("ACCOUNT: " + email + " SUCCESSFUL PAYMENT")
             return "Payment Complete!"
         except (Exception) as error:
             log().error("ERROR IN handle_payment: " + str(error))
@@ -68,13 +69,13 @@ def get_balance_from_account(email):
             connection.close()
 
 
-# This method is so fucking scuffed
 def validate_data(email, account_number, CVV, pin_code):
     sql_query = (
         "SELECT account_number, CVV, pin_code FROM bank_account WHERE email = %s"
     )
     connection = establish_connection()
     cursor = connection.cursor()
+    hasher = HashMethods()
     try:
         cursor.execute(sql_query, (email,))
         returned_data = cursor.fetchall()
@@ -82,11 +83,13 @@ def validate_data(email, account_number, CVV, pin_code):
         account_number_from_db = data[0]
         CVV_from_db = data[1]
         pin_code_from_db = data[2]
-        if check_hashed_value(account_number, account_number_from_db):
-            if check_hashed_value(CVV, CVV_from_db):
-                if check_hashed_value(pin_code, pin_code_from_db):
-                    log().info("DATA VALIDATED ON ACCOUNT: " + email)
-                    return True
+        if all([
+                hasher.check_hashed_value(account_number, account_number_from_db),
+                hasher.check_hashed_value(CVV, CVV_from_db),
+                hasher.check_hashed_value(pin_code, pin_code_from_db)
+            ]):
+                log().info("DATA VALIDATED ON ACCOUNT: " + email)
+                return True
     except (Exception) as error:
         log().error("ERROR IN validate_data: " + str(error))
     finally:

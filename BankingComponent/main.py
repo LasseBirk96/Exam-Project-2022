@@ -6,7 +6,7 @@ from flask_restful import Api
 
 sys.path.append("..")
 from DataBaseLayer.Setup import postgres_setup
-from Tests import test_bank_account_queries
+from Tests import run_tests
 
 
 app = Flask(__name__)
@@ -23,6 +23,6 @@ def home():
 
 if __name__ == "__main__":
     postgres_setup.run_setup()
-    if test_bank_account_queries.run_tests():
+    if run_tests.run():
         port = int(os.environ.get("PORT", 5000))
         app.run(debug=False, host="0.0.0.0", port=port)
