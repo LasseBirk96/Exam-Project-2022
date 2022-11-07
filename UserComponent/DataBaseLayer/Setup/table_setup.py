@@ -1,34 +1,42 @@
+"""THIS CLASS DOES THINGS WITH OUR POSTGRES"""
 import sys
+
 sys.path.append("..")
-from ..Connection.connector import establish_connection
+from Connection.connector import establish_connection
 
 
 def set_up_table(command):
-    conn = establish_connection()
-    cur = conn.cursor()
+    """This methods allows us to execute on or more quieres.
+    However, in our case it is only used to set up one table"""
+    connnection = establish_connection()
+    cursor = connnection.cursor()
     try:
-        cur.execute(command)
-        cur.close()
-        conn.commit()
-        print("Successfully created user table")
+        cursor.execute(command)
+        cursor.close()
+        connnection.commit()
+        print("Successfully created table")
     except (Exception) as error:
         print(error)
     finally:
-        if conn is not None:
-            conn.close()
+        if connnection is not None:
+            connnection.close()
 
-# Returns the sql query that creates a bank_account table
-def return_table():
-    return  """
+
+def return_user_table():
+    """This method returns the SQL for creating a table called users"""
+    return """
     CREATE TABLE IF NOT EXISTS users (
-    email VARCHAR(255) primary key unique,
-	account_number VARCHAR(255) not NULL,
-    CVV VARCHAR(255) not NULL,
-    pin_code VARCHAR(255) not NULL,
-    balance SMALLINT not NULL
+	user_id VARCHAR(255) primary KEY,
+        first_name VARCHAR(255) not NULL,
+        last_name VARCHAR(255) not NULL,
+        password VARCHAR(255) not NULL,
+        age SMALLINT not NULL,
+        email VARCHAR(255) unique not NULL,
+        phonenumber VARCHAR(255) unique not NULL
     );
     """
 
 
-def setup_user_table():
-    set_up_table(return_table())
+
+def set_up_user_table():
+    set_up_table(return_user_table())
