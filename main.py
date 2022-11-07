@@ -5,15 +5,15 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from DataBaseLayer.Setup import postgres_setup
-from Tests import run_tests
+from BankingComponent.DataBaseLayer.Setup import postgres_setup
+from BankingComponent.Tests import run_tests
 
 
 app = Flask(__name__)
 api = Api(app)
 # THESE ARE NOT TO BE MOVED
 
-from LogicLayer import banking_API
+from BankingComponent.LogicLayer import banking_API
 
 
 @app.route("/home", methods=["GET"])

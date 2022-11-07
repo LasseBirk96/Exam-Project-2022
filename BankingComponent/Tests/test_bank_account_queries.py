@@ -1,6 +1,6 @@
-from DataBaseLayer.Queries import bank_account_queries
-from DataBaseLayer.Connection import connector
-from BankingLogger.logger_creator import create_logger as log
+from BankingComponent.DataBaseLayer.Queries import bank_account_queries
+from BankingComponent.DataBaseLayer.Connection import connector
+from BankingComponent.BankingLogger.logger_creator import create_logger as log
 from .Alligner import Alligner
 
 

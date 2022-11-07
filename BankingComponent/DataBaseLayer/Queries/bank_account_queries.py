@@ -3,8 +3,8 @@ import sys
 sys.path.append("..")
 from ..Utility.HashMethods import HashMethods
 from ..Connection.connector import establish_connection
-from LogicLayer.Entities.BankAccount import BankAccount
-from BankingLogger.logger_creator import create_logger as log
+from BankingComponent.LogicLayer.Entities.BankAccount import BankAccount
+from BankingComponent.BankingLogger.logger_creator import create_logger as log
 
 
 def persist_bank_account(email, account_number, CVV, pin_code, balance):

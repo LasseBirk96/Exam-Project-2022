@@ -1,5 +1,5 @@
-from LogicLayer.Security.InputSanitizer import InputSanitizer
-from BankingLogger.logger_creator import create_logger as log
+from BankingComponent.LogicLayer.Security.InputSanitizer import InputSanitizer
+from BankingComponent.BankingLogger.logger_creator import create_logger as log
 from .Alligner import Alligner
 
 def test_clean_input():

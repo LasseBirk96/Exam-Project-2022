@@ -2,7 +2,7 @@
 from __main__ import app
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
-from DataBaseLayer.Queries import bank_account_queries
+from BankingComponent.DataBaseLayer.Queries import bank_account_queries
 from .Security.InputSanitizer import InputSanitizer
 
 
