@@ -1,6 +1,6 @@
 #!/bin/bash
 
-services=("BankingComponent")
+services=("BankingComponent" "FoodComponent")
 
 for service in $services
 do
