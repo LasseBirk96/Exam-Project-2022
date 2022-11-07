@@ -1,5 +1,5 @@
 import re
-from BankingComponent.BankingLogger.logger_creator import create_logger as log
+from BankingLogger.logger_creator import create_logger as log
 class InputSanitizer:
 
     def __init__(self):

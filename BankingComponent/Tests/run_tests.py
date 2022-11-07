@@ -1,6 +1,6 @@
 from .test_bank_account_queries import test_handle_payment, test_persist_bank_account
 from .test_clean_input import test_clean_input
-from BankingComponent.BankingLogger.logger_creator import create_logger as log
+from BankingLogger.logger_creator import create_logger as log
 
 
 

@@ -13,9 +13,12 @@ services:
     networks:
       - banking
 
-  python3:
-    build: .
-    container_name: Python3
+  banking:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=BankingComponent
+    container_name: banking
     environment:
       # POSTGRES
       - POSTGRES_HOST=postgres

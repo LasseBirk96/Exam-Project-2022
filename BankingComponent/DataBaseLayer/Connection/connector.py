@@ -3,7 +3,7 @@
 import os
 import time
 from psycopg2 import connect, OperationalError
-from BankingComponent.BankingLogger.logger_creator import create_logger as log
+from BankingLogger.logger_creator import create_logger as log
 
 def establish_connection(tries = 3, timeout = 5):
     if tries == 0:

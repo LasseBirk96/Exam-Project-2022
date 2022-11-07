@@ -5,21 +5,19 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from BankingComponent.DataBaseLayer.Setup import postgres_setup
-from BankingComponent.Tests import run_tests
+from DataBaseLayer.Setup import postgres_setup
+from Tests import run_tests
 
 
 app = Flask(__name__)
 api = Api(app)
 # THESE ARE NOT TO BE MOVED
 
-from BankingComponent.LogicLayer import banking_API
-
+from LogicLayer import banking_API
 
 @app.route("/home", methods=["GET"])
 def home():
     return "<h1>HVIS DU SER DETTE SÅ KØRER DET</h1>"
-
 
 if __name__ == "__main__":
     postgres_setup.run_setup()
