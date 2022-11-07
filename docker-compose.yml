@@ -13,6 +13,23 @@ services:
     networks:
       - banking
 
+  # bankingimage:
+  #   image: ghcr.io/lassebirk96/bankingcomponent:latest
+  #   container_name: bankingimage
+  #   environment:
+  #     # POSTGRES
+  #     - POSTGRES_HOST=postgres
+  #     - POSTGRES_PORT=5432
+  #     - POSTGRES_USER=dev
+  #     - POSTGRES_PASSWORD=dev123
+  #     - POSTGRES_DB=eksamen
+  #   depends_on:
+  #     - postgres
+  #   ports:
+  #     - 5000:5000
+  #   networks:
+  #     - banking
+
   banking:
     build: 
       context: .
