@@ -16,7 +16,7 @@ def banking_home():
 # PERSISTS A BANK_ACCOUNT
 @app.route("/banking", methods=["POST"])
 def persist_bank_account():
-    """This is the endpoint for persisting a user"""
+    """This is the endpoint for persisting a bank account"""
     data = request.get_json()
     sanitizer = InputSanitizer()
     if sanitizer.clean_input(data):

@@ -2,7 +2,7 @@
 import sys
 
 sys.path.append("..")
-from Connection.connector import establish_connection
+from ..Connection.connector import establish_connection
 
 
 def set_up_table(command):
@@ -14,7 +14,7 @@ def set_up_table(command):
         cursor.execute(command)
         cursor.close()
         connnection.commit()
-        print("Successfully created table")
+        print("Successfully created user table")
     except (Exception) as error:
         print(error)
     finally:

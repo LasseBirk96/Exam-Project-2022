@@ -2,9 +2,8 @@
 import uuid
 import sys
 
-sys.path.append("postGres")
 
-from Connection.connector import establish_connection
+from ..Connection.connector import establish_connection
 from flask_bcrypt import Bcrypt
 from flask import Flask
 from LogicLayer.Entities.User import User
@@ -23,41 +22,42 @@ def persist_user(first_name, last_name, password, age, email, phone_number):
         user_id, first_name, last_name, hashed_password, age, email, phone_number
     )
     persist_user_query = "INSERT INTO users (user_id, first_name, last_name, password, age, email, phonenumber) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    conn = establish_connection()
-    cur = conn.cursor()
+    connection = establish_connection()
+    cursor = connection.cursor()
     # Execute the tuple with tables
     try:
-        cur.execute(persist_user_query, user.return_user())
-        conn.commit()
-        
-        return "Successfully committed user " + email + " to databæse"
+        cursor.execute(persist_user_query, user.return_user())
+        connection.commit()
+        log().info("COMMITTED USER " + email + " TO DATABASE")
+        return "Your account has been made succesfully"
     except (Exception) as error:
-        print("ERROR IN persistence", error)
+        log().error("ERROR IN persist_user: " + str(error))
     finally:
-        if conn is not None:
-            conn.close()
+        if connection is not None:
+            connection.close()
 
 
 def user_login(user_email, user_password):
     '''This method allows the user to log in'''
-    conn = establish_connection()
-    cur = conn.cursor()
+    connection = establish_connection()
+    cursor = connection.cursor()
     user_login_query = "SELECT user_id, password FROM users WHERE email = %s"
     try:
-        cur.execute(user_login_query, (user_email,))
-        entries = cur.fetchall()[0]
+        cursor.execute(user_login_query, (user_email,))
+        entries = cursor.fetchall()[0]
         sql_data_password = entries[1]
-        sql_pass = bytes(sql_data_password, encoding="utf-8")
-        password = bytes(user_password, encoding="utf-8")
-        if bcrypt.check_password_hash(sql_pass, password):  # returns True
+        hasher = HashMethods()
+        if hasher.check_hashed_value(user_password, sql_data_password):
+            log().info("USER LOGGED IN SUCCESFULLY")
             return entries[0]
         else:
-            print("FAILED LOG IN")
+            log().error("INVALID LOG-IN")
+            return "INVALID LOG-IN"
     except (Exception) as error:
-        print("ERROR IN logging in", error)
+       log().error("ERROR IN user_login" + str(error))
     finally:
-        if conn is not None:
-            conn.close()
+        if connection is not None:
+            connection.close()
 
 
 def delete_user(user_email):

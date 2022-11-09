@@ -22,7 +22,7 @@ def persist_bank_account(email, account_number, CVV, pin_code, balance):
     try:
         cursor.execute(sql_query, bank_account.return_account())
         connection.commit()
-        log().info("COMMITETED ACCOUNT " + email + " TO DATABASE")
+        log().info("COMMITTED ACCOUNT " + email + " TO DATABASE")
         return "Your account has been made succesfully"
     except (Exception) as error:
         log().error("ERROR IN persist_bank_account: " + str(error))
