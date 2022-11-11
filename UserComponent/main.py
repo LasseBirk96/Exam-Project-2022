@@ -5,8 +5,8 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from DataBaseLayer.Setup import postgres_setup
-
+from DataBaseLayer.Setup import user_setup
+from Tests import run_tests
 
 
 app = Flask(__name__)
@@ -19,6 +19,7 @@ def home():
     return "<h1>USERS ARE RUNNING</h1>"
 
 if __name__ == "__main__":
-    postgres_setup.run_setup()
-    port = int(os.environ.get("PORT", 5001))
-    app.run(debug=False, host="0.0.0.0", port=port)
+    user_setup.run_setup()
+    if run_tests.run():
+        port = int(os.environ.get("PORT", 5001))
+        app.run(debug=False, host="0.0.0.0", port=port)

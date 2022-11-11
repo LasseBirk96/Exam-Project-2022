@@ -48,7 +48,8 @@ def user_login(user_email, user_password):
         sql_data_password = entries[1]
         hasher = HashMethods()
         if hasher.check_hashed_value(user_password, sql_data_password):
-            log().info("USER LOGGED IN SUCCESFULLY")
+            log().info("USER LOGGED IN SUCCESSFULLY")
+            print(type(entries[0]))
             return entries[0]
         else:
             log().error("INVALID LOG-IN")
@@ -97,33 +98,19 @@ def update_user(user_email, new_phonenumber):
             conn.close()
 
 
-# def get_user_by_id(user_id):
-#     '''This allows us to get the user by their id'''
-#     conn = establish_connection()
-#     cur = conn.cursor()
-#     user_delete_query = "SELECT * FROM users WHERE user_id = %s"
-#     try:
-#         cur.execute(user_delete_query, (user_id,))
-#         user = cur.fetchall()
-#         return user
-#     except (Exception) as error:
-#         print("ERROR IN selecting", error)
-#     finally:
-#         if conn is not None:
-#             conn.close()
+def get_user_by_id(user_id):
+    '''This allows us to get the user by their id'''
+    conn = establish_connection()
+    cur = conn.cursor()
+    user_delete_query = "SELECT * FROM users WHERE user_id = %s"
+    try:
+        cur.execute(user_delete_query, (user_id,))
+        user = cur.fetchall()
+        return user
+    except (Exception) as error:
+        print("ERROR IN selecting", error)
+    finally:
+        if conn is not None:
+            conn.close()
 
 
-# def get_user(user_email):
-#     '''This allows us to get the user by their email'''
-#     conn = establish_connection()
-#     cur = conn.cursor()
-#     user_delete_query = "SELECT * FROM users WHERE email = %s"
-#     try:
-#         cur.execute(user_delete_query, (user_email,))
-#         user = cur.fetchall()
-#         return user
-#     except (Exception) as error:
-#         print("ERROR IN selecting", error)
-#     finally:
-#         if conn is not None:
-#             conn.close()
