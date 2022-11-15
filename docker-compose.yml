@@ -53,10 +53,32 @@ services:
       - 5001:5001
     networks:
       - users
+
+
+  orders:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=OrderComponent
+    container_name: OrderComponent
+    environment:
+      # POSTGRES
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev123
+      - POSTGRES_DB=eksamen
+    depends_on:
+      - postgres
+    ports:
+      - 5002:5002
+    networks:
+      - orders
       
 networks:
   banking: 
   users:
+  orders:
   
 
     # bankingimage:
