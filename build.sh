@@ -1,6 +1,6 @@
 #!/bin/bash
 
-services=("BankingComponent" "UserComponent" "FoodComponent" "OrderComponent")
+services=("BankingComponent" "UserComponent" "FoodComponent" "OrderComponent" "ProductComponent")
 
 for service in "${services[@]}"
 do

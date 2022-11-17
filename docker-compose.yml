@@ -13,6 +13,23 @@ services:
     networks:
       - banking
       - users
+      - products
+
+  mongo:
+    container_name: Mongo
+    restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+    ports:
+      - "27017:27017"
+    networks:
+      - orders
+  
+
+
+
 
   banking:
     build: 
@@ -62,6 +79,24 @@ services:
         - COMPONENT_PATH=OrderComponent
     container_name: OrderComponent
     environment:
+      - MONGO_HOST=mongo
+      - MONGO_USER=dev
+      - MONGO_PASSWORD=dev
+      - MONGO_PORT=27017
+    depends_on:
+      - mongo
+    ports:
+      - 5002:5002
+    networks:
+      - orders
+
+  products:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=ProductComponent
+    container_name: ProductComponent
+    environment:
       # POSTGRES
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
@@ -71,14 +106,15 @@ services:
     depends_on:
       - postgres
     ports:
-      - 5002:5002
+      - 5003:5003
     networks:
-      - orders
+      - products
       
 networks:
   banking: 
   users:
   orders:
+  products:
   
 
     # bankingimage:

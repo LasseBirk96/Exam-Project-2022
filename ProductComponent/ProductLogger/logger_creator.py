@@ -3,7 +3,7 @@ import sys
 
 #Remember that when you create the logger object, you can't perform any computing in the info(). You have to log one single value
 def create_logger():
-    root = logging.getLogger('BANKING')
+    root = logging.getLogger('PRODUCTS')
     root.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)

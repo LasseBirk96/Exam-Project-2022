@@ -2,8 +2,7 @@
 from __main__ import app
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
-from .Entities.Order import Order
-
+from LogicLayer.Utility.Handler import Handler
 
 
 @app.route("/order", methods=["GET"])
@@ -12,18 +11,11 @@ def order_home():
     return "<h1>THE ORDER API IS RUNNING</h1>"
 
 
-# PERSISTS A ORDER
-@app.route("/order", methods=["POST"])
-def persist_order():
-    """This is the endpoint for persisting an order"""
-    data = request.get_json()
+# CREATES AN ORDER
+@app.route("/order/create", methods=["POST"])
+def create_order():
+    """This receives data from an api call, and allows you to persist order in mongo"""
+    return Handler.handle_order_creation(data = request.get_json())
     
-    order = Order(
-        data.get("email"),
-        data.get("delivery_address"),
-        data.get("phone_number")
-    )
-    return jsonify(order)
-
 
 

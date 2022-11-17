@@ -3,7 +3,7 @@
 import os
 import time
 from psycopg2 import connect, OperationalError
-from FoodLogger.logger_creator import create_logger as log
+from ProductLogger.logger_creator import create_logger as log
 
 def establish_connection(tries = 3, timeout = 5):
     if tries == 0:
