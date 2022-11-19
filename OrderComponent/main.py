@@ -12,7 +12,7 @@ sys.path.append("..")
 app = Flask(__name__)
 api = Api(app)
 # THESE ARE NOT TO BE MOVED
-from LogicLayer import order_API
+from LogicLayer.ComponentAPI import order_API
 
 @app.route("/home", methods=["GET"])
 def home():

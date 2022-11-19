@@ -1,7 +1,7 @@
 from .Alligner import Alligner
 from UserLogger.logger_creator import create_logger as log
-from DataBaseLayer.Connection import connector
-from DataBaseLayer.Queries import user_queries
+from DatabaseLayer.Connection import connector
+from DatabaseLayer.Queries import user_queries
 
 
 

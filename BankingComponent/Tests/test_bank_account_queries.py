@@ -1,5 +1,5 @@
-from DataBaseLayer.Queries import bank_account_queries
-from DataBaseLayer.Connection import connector
+from DatabaseLayer.Queries import bank_account_queries
+from DatabaseLayer.Connection import connector
 from BankingLogger.logger_creator import create_logger as log
 from .Alligner import Alligner
 

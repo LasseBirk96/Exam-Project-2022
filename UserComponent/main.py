@@ -5,14 +5,14 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from DataBaseLayer.Setup import user_setup
+from DatabaseLayer.Setup import user_setup
 from Tests import run_tests
 
 
 app = Flask(__name__)
 api = Api(app)
 # THESE ARE NOT TO BE MOVED
-from LogicLayer import user_API
+from LogicLayer.ComponentAPI import user_API
 
 @app.route("/home", methods=["GET"])
 def home():

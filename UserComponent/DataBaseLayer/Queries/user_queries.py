@@ -1,14 +1,10 @@
 '''THIS CLASS CONTAINS ALL METHODS THAT QUERY THE POSTGRES DATABASE'''
 import uuid
-import sys
-
-
 from ..Connection.connector import establish_connection
 from flask_bcrypt import Bcrypt
 from flask import Flask
 from LogicLayer.Entities.User import User
 from ..Utility.HashMethods import HashMethods
-from UserLogger.logger_creator import create_logger as log
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
@@ -28,10 +24,9 @@ def persist_user(first_name, last_name, password, age, email, phone_number):
     try:
         cursor.execute(persist_user_query, user.return_user())
         connection.commit()
-        log().info("COMMITTED USER " + email + " TO DATABASE")
-        return "Your account has been made succesfully"
+        return "Success"
     except (Exception) as error:
-        log().error("ERROR IN persist_user: " + str(error))
+       return error
     finally:
         if connection is not None:
             connection.close()
@@ -48,14 +43,12 @@ def user_login(user_email, user_password):
         sql_data_password = entries[1]
         hasher = HashMethods()
         if hasher.check_hashed_value(user_password, sql_data_password):
-            log().info("USER LOGGED IN SUCCESSFULLY")
             print(type(entries[0]))
             return entries[0]
         else:
-            log().error("INVALID LOG-IN")
             return "INVALID LOG-IN"
     except (Exception) as error:
-       log().error("ERROR IN user_login" + str(error))
+       return error
     finally:
         if connection is not None:
             connection.close()
@@ -69,33 +62,33 @@ def delete_user(user_email):
     try:
         cur.execute(user_delete_query, (user_email,))
         conn.commit()
-        return "Successfully deleted user" + user_email
+        return "Success"
     except (Exception) as error:
-        print("ERROR IN deleting", error)
+        return error
     finally:
         if conn is not None:
             conn.close()
 
 
-def update_user(user_email, new_phonenumber):
-    '''This allows us to update the users phonenumber'''
-    conn = establish_connection()
-    cur = conn.cursor()
-    user_delete_query = "UPDATE users SET phonenumber = %s WHERE email = %s"
-    try:
-        cur.execute(user_delete_query, (new_phonenumber, user_email))
-        conn.commit()
-        return (
-            "Successfully updated user "
-            + user_email
-            + " phonenumber to "
-            + new_phonenumber
-        )
-    except (Exception) as error:
-        print("ERROR IN deleting", error)
-    finally:
-        if conn is not None:
-            conn.close()
+# def update_user(user_email, new_phonenumber):
+#     '''This allows us to update the users phonenumber'''
+#     conn = establish_connection()
+#     cur = conn.cursor()
+#     user_delete_query = "UPDATE users SET phonenumber = %s WHERE email = %s"
+#     try:
+#         cur.execute(user_delete_query, (new_phonenumber, user_email))
+#         conn.commit()
+#         return (
+#             "Successfully updated user "
+#             + user_email
+#             + " phonenumber to "
+#             + new_phonenumber
+#         )
+#     except (Exception) as error:
+#         print("ERROR IN deleting", error)
+#     finally:
+#         if conn is not None:
+#             conn.close()
 
 
 def get_user_by_id(user_id):

@@ -2,7 +2,7 @@
 from __main__ import app
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
-from LogicLayer.Utility.Handler import Handler
+from LogicLayer.ComponentAPI.Handler import Handler
 
 
 @app.route("/order", methods=["GET"])

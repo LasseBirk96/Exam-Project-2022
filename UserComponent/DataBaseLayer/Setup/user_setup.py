@@ -1,4 +1,4 @@
-from DataBaseLayer.Setup import table_setup
+from DatabaseLayer.Setup import table_setup
 
 def run_setup():
 
