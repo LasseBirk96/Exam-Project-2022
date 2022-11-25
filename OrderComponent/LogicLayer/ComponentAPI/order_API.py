@@ -1,4 +1,4 @@
-"""THIS CLASS CONTAINS ALL API WORK FOR POSTGRES"""
+"""THIS CLASS CONTAINS ALL API WORK FOR ORDERS"""
 from __main__ import app
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse

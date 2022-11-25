@@ -1,4 +1,4 @@
-"""THIS IS THE MAIN CLASS FROR THE ENTIRE PROJECT, THIS GETS RUN IN THE DOCKERFILE"""
+"""THIS IS THE MAIN CLASS FROR THE ENTIRE COMPONENT, THIS GETS RUN IN THE DOCKERFILE"""
 import sys
 import os
 from flask import Flask
@@ -6,8 +6,6 @@ from flask_restful import Api
 from DatabaseLayer.Setup import products_setup
 from Tests import run_tests
 sys.path.append("..")
-# from DataBaseLayer.Setup import user_setup
-# from Tests import run_tests
 
 
 app = Flask(__name__)

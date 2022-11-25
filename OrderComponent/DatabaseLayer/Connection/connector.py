@@ -1,7 +1,7 @@
 import os
 from pymongo import MongoClient
 
-def connect_to_order_collection():
+def connect_to_collection():
     """This establishes connection to our mongo db."""
     host = os.environ.get("MONGO_HOST")
     user = os.environ.get("MONGO_USER")

@@ -8,3 +8,4 @@ Werkzeug==2.0.0
 PyJWT==2.4.0
 python-decouple
 pymongo
+python-dotenv
