@@ -1,31 +1,32 @@
 version: '3.8'
 services:
-  # postgres:
-  #   # container_name: Postgres
-  #   # image: postgres:latest
-  #   # restart: always
-  #   # environment:
-  #   #   - POSTGRES_USER=dev
-  #   #   - POSTGRES_PASSWORD=dev123
-  #   #   - POSTGRES_DB=eksamen
-  #   # ports:
-  #   #   - 5432:5432
-  #   # networks:
-  #   #   - banking
-  #   #   - users
-  #   #   - products
-
-  mongo:
-    container_name: Mongo
+  postgres:
+    container_name: Postgres
+    image: postgres:latest
     restart: always
-    image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: dev
-      MONGO_INITDB_ROOT_PASSWORD: dev
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev123
+      - POSTGRES_DB=eksamen
     ports:
-      - "27017:27017"
+      - 5432:5432
     networks:
-      - orders
+      # - banking
+      # - users
+      # - products
+      - drivers
+
+  # mongo:
+  #   container_name: Mongo
+  #   restart: always
+  #   image: mongo:latest
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: dev
+  #     MONGO_INITDB_ROOT_PASSWORD: dev
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - orders
   
   # banking:
   #   build: 
@@ -68,23 +69,23 @@ services:
   #     - users
 
 
-  orders:
-    build: 
-      context: .
-      args:
-        - COMPONENT_PATH=OrderComponent
-    container_name: OrderComponent
-    environment:
-      - MONGO_HOST=mongo
-      - MONGO_USER=dev
-      - MONGO_PASSWORD=dev
-      - MONGO_PORT=27017
-    depends_on:
-      - mongo
-    ports:
-      - 5002:5002
-    networks:
-      - orders
+  # orders:
+  #   build: 
+  #     context: .
+  #     args:
+  #       - COMPONENT_PATH=OrderComponent
+  #   container_name: OrderComponent
+  #   environment:
+  #     - MONGO_HOST=mongo
+  #     - MONGO_USER=dev
+  #     - MONGO_PASSWORD=dev
+  #     - MONGO_PORT=27017
+  #   depends_on:
+  #     - mongo
+  #   ports:
+  #     - 5002:5002
+  #   networks:
+  #     - orders
 
   # products:
   #   build: 
@@ -106,11 +107,32 @@ services:
   #   networks:
   #     - products
       
+
+  drivers:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=DriverComponent
+    container_name: DriverComponent
+    environment:
+      # POSTGRES
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev123
+      - POSTGRES_DB=eksamen
+    depends_on:
+      - postgres
+    ports:
+      - 5004:5004
+    networks:
+      - drivers
 networks:
   # banking: 
   # users:
-  orders:
+  # orders:
   # products:
+  drivers:
   
 
     # bankingimage:
