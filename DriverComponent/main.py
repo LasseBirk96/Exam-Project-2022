@@ -17,10 +17,9 @@ from LogicLayer.ComponentAPI import driver_api
 @app.route("/home", methods=["GET"])
 def home():
     return "<h1>DRIVERS ARE RUNNING</h1>"
-#ADDING A COMMENT
+
 if __name__ == "__main__":
     driver_setup.run_setup()
     port = int(os.environ.get("PORT", 5004))
     app.run(debug=False, host="0.0.0.0", port=port)
 
-#ifbrvibfsd
