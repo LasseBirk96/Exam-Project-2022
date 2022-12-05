@@ -1,5 +1,6 @@
-
+from DatabaseLayer.Queries import driver_queries
 from DriverLogger.logger_creator import create_logger as log
+from LogicLayer.Security import user_jwt
 from flask import Flask, request, jsonify
 
 
@@ -9,9 +10,7 @@ class Handler:
         pass
 
     def handle_persist_driver(data):
-        sanitizer = InputSanitizer()
-        if sanitizer.clean_input(data):
-            user = user_queries.persist_user(
+            driver = driver_queries.persist_driver(
                 data.get("first_name"),
                 data.get("last_name"),
                 data.get("password"),
@@ -19,16 +18,13 @@ class Handler:
                 data.get("email"),
                 data.get("phone_number")
             )
-            return jsonify(user)
-        return "Invalid input"
-
+            return jsonify(driver)
+ 
 
     def handle_driver_login(data):
-        sanitizer = InputSanitizer()
-        if sanitizer.clean_input(data):
-            driver_id = user_queries.user_login(
+            driver_id = driver_queries.driver_login(
                 data.get("email"),
                 data.get("password")
             )
             return jsonify(user_jwt.get_access_token(driver_id))
-        return "Invalid input"
+

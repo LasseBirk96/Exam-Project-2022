@@ -2,7 +2,7 @@
 import sys
 
 sys.path.append("..")
-from ..Connection.connector import establish_connection
+from ..Connection.connect_to_postgres import establish_connection
 
 
 def set_up_table(command):
@@ -26,13 +26,14 @@ def return_driver_table():
     """This method returns the SQL for creating a table called drivers"""
     return """
     CREATE TABLE IF NOT EXISTS drivers (
-	driver_id VARCHAR(255) unique primary KEY,
+	driver_id VARCHAR(255) primary KEY,
         first_name VARCHAR(255) not NULL,
         last_name VARCHAR(255) not NULL,
-        password VARCHAR(255) not NULL,
         age SMALLINT not NULL,
+        phonenumber VARCHAR(255) unique not NULL,
         email VARCHAR(255) unique not NULL,
-        phonenumber VARCHAR(255) unique not NULL
+        password VARCHAR(255) not NULL,
+        points INTEGER not NULL
     );
     """
 
@@ -40,3 +41,5 @@ def return_driver_table():
 
 def set_up_driver_table():
     set_up_table(return_driver_table())
+
+

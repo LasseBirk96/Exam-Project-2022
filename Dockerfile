@@ -12,4 +12,5 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./${COMPONENT_PATH} .
 
-CMD ["python3",  "main.py"]
+
+CMD ["python3", "main.py"]

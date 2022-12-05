@@ -7,22 +7,22 @@ from flask import request, jsonify
 access_secret = "secret"
 refresh_secret = "refresh"
 
-def get_access_token(driver_id, ban_list = []):
+def get_access_token(user_id, ban_list = []):
     '''Returns an access token'''
-    if driver_id in ban_list:
+    if user_id in ban_list:
         raise Exception("user is banned")
 
     expiry = datetime.datetime.now(tz=timezone.utc) + datetime.timedelta(minutes=15)
-    return jwt.encode({"exp": expiry, "sub": driver_id, "iss": "LASSES APP"}, access_secret, algorithm="HS256")
+    return jwt.encode({"exp": expiry, "sub": user_id, "iss": "LASSES APP"}, access_secret, algorithm="HS256")
 
 def decode_access_token(access_token):
     '''Decodes access token'''
     return jwt.decode(access_token, access_secret, algorithms=["HS256"])
 
-def get_refresh_token(driver_id):
+def get_refresh_token(user_id):
     '''Returns refresh token'''
     expiry = datetime.datetime.now(tz=timezone.utc) + datetime.timedelta(days=30)
-    return jwt.encode({"exp": expiry, "sub": driver_id, "iss": "LASSES APP"}, refresh_secret, algorithm="HS256")
+    return jwt.encode({"exp": expiry, "sub": user_id, "iss": "LASSES APP"}, refresh_secret, algorithm="HS256")
 
 def decode_refresh_token(refresh_token):
     '''Decodes refresh token'''

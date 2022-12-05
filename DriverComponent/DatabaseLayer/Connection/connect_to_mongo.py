@@ -1,7 +1,7 @@
 import os
 from pymongo import MongoClient
 
-def connect_to_collection():
+def connect_to_collection(collection_):
     """This establishes connection to our mongo db."""
     host = os.environ.get("MONGO_HOST")
     user = os.environ.get("MONGO_USER")
@@ -12,7 +12,7 @@ def connect_to_collection():
 
     client = MongoClient(dsn, uuidRepresentation="standard")
     database = client["Exam2022"]
-    collection = database["Active Orders"]
+    collection = database[collection_]
     return collection
 
 

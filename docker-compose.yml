@@ -16,17 +16,18 @@ services:
       # - products
       - drivers
 
-  # mongo:
-  #   container_name: Mongo
-  #   restart: always
-  #   image: mongo:latest
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: dev
-  #     MONGO_INITDB_ROOT_PASSWORD: dev
-  #   ports:
-  #     - "27017:27017"
-  #   networks:
-  #     - orders
+  mongo:
+    container_name: Mongo
+    restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+    ports:
+      - "27017:27017"
+    networks:
+      - orders
+      - drivers
   
   # banking:
   #   build: 
@@ -69,23 +70,23 @@ services:
   #     - users
 
 
-  # orders:
-  #   build: 
-  #     context: .
-  #     args:
-  #       - COMPONENT_PATH=OrderComponent
-  #   container_name: OrderComponent
-  #   environment:
-  #     - MONGO_HOST=mongo
-  #     - MONGO_USER=dev
-  #     - MONGO_PASSWORD=dev
-  #     - MONGO_PORT=27017
-  #   depends_on:
-  #     - mongo
-  #   ports:
-  #     - 5002:5002
-  #   networks:
-  #     - orders
+  orders:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=OrderComponent
+    container_name: OrderComponent
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_USER=dev
+      - MONGO_PASSWORD=dev
+      - MONGO_PORT=27017
+    depends_on:
+      - mongo
+    ports:
+      - 5002:5002
+    networks:
+      - orders
 
   # products:
   #   build: 
@@ -123,14 +124,16 @@ services:
       - POSTGRES_DB=eksamen
     depends_on:
       - postgres
+      - mongo
     ports:
       - 5004:5004
     networks:
       - drivers
+      
 networks:
   # banking: 
   # users:
-  # orders:
+  orders:
   # products:
   drivers:
   
