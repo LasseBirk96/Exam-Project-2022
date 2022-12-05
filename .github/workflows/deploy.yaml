@@ -22,9 +22,7 @@ jobs:
 
 
       - name: Run tests
-        run: |
-         chmod +x ./test.sh
-         ./test.sh
+        run: ./test.sh
         
         
       - name: Run build script
