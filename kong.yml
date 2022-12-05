@@ -1,0 +1,180 @@
+_format_version: "3.0"
+_transform: true
+
+
+### BANK ###
+services:
+ - name: bank-api-1
+   host: host.docker.internal
+   port: 5000
+   protocol: http
+   path: /home
+   routes:
+   - name: bank-status-check
+     methods:
+     - GET
+     paths:
+     - /bank-status
+     strip_path: true
+
+ - name: bank-api-2
+   host: host.docker.internal
+   port: 5000
+   protocol: http
+   path: /banking
+   routes:
+   - name: persist-bank-account
+     methods:
+     - POST
+     paths:
+     - /account-persist
+     strip_path: true
+
+ - name: bank-api-3
+   host: host.docker.internal
+   port: 5000
+   protocol: http
+   path: /banking
+   routes:
+   - name: bank-payment
+     methods:
+     - POST
+     paths:
+     - /bank-pay
+     strip_path: true
+
+### USER ###
+ - name: user-api-1
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /home
+   routes:
+   - name: user-status-check
+     methods:
+     - GET
+     paths:
+     - /user-status
+     strip_path: true
+
+ - name: user-api-2
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /user
+   routes:
+   - name: persist-user
+     methods:
+     - POST
+     paths:
+     - /user-persist
+     strip_path: true
+
+ - name: user-api-3
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /user/login
+   routes:
+   - name: user-login-route
+     methods:
+     - POST
+     paths:
+     - /user-login
+     strip_path: true
+
+ - name: user-api-4
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /user/whoami
+   routes:
+   - name: user-whoami
+     methods:
+     - GET
+     paths:
+     - /user-whoami
+     strip_path: true
+
+### ORDER ###
+ - name: order-api-1
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /order
+   routes:
+   - name: order-status-check
+     methods:
+     - GET
+     paths:
+     - /order-status
+     strip_path: true
+
+ - name: order-api-2
+   host: host.docker.internal
+   port: 5001
+   protocol: http
+   path: /order/create
+   routes:
+   - name: order-status-check
+     methods:
+     - POST
+     paths:
+     - /order-create
+     strip_path: true
+
+
+### PRODUCT ###
+ - name: product-api-1
+   host: host.docker.internal
+   port: 5003
+   protocol: http
+   path: /home
+   routes:
+   - name: product-status-check
+     methods:
+     - GET
+     paths:
+     - /product-status
+     strip_path: true
+
+ - name: product-api-2
+   host: host.docker.internal
+   port: 5003
+   protocol: http
+   path: /product
+   routes:
+   - name: create-a-product
+     methods:
+     - POST
+     paths:
+     - /product-create
+     strip_path: true
+
+ - name: product-api-3
+   host: host.docker.internal
+   port: 5003
+   protocol: http
+   path: /product
+   routes:
+   - name: delete-a-product
+     methods:
+     - DELETE
+     paths:
+     - /product-delete
+     strip_path: true
+
+ - name: product-api-4
+   host: host.docker.internal
+   port: 5003
+   protocol: http
+   path: /product/all
+   routes:
+   - name: product-get-all
+     methods:
+     - GET
+     paths:
+     - /product-all
+     strip_path: true
+
+### DRIVER ###

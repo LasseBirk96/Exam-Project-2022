@@ -37,7 +37,7 @@ def test_handle_payment():
     bank_account_queries.persist_bank_account(email, "123456789012", "111", "1111", 500)
     bank_account_queries.handle_payment(email, "123456789012", "111", "1111", 300)
     balance = bank_account_queries.get_balance_from_account(email)
-    if balance == 100:
+    if balance == 200:
             bank_account_queries.delete_account_on_email(email)
             log().info("TEST HANDLE PAYMENT PASSED")
             print(formatter.format("ENDING TEST ON test_handle_payment"))
