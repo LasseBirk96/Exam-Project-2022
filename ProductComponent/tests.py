@@ -6,6 +6,5 @@ def inc(x):
 def test_answer():
     assert inc(1) == 5
 
-if __name__ == "__main__":
 
-    test_answer()
+test_answer()
