@@ -4,7 +4,8 @@ def inc(x):
 
 
 def test_answer():
-    assert inc(4) == 5
+    assert inc(1) == 5
 
 if __name__ == "__main__":
+
     test_answer()
