@@ -19,6 +19,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          ls -la /.local/bin
           sudo apt install python3 python3-pip python3-pytest
 
       - name: Run tests
