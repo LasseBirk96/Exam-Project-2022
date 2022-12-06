@@ -22,7 +22,7 @@ jobs:
           sudo apt install python3-pytest
 
       - name: Run tests
-        run: bash test.sh
+        run: pytest
         
       - name: Run build script
         run: ./build.sh
