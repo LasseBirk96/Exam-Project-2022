@@ -19,12 +19,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          ls -la /bin
           sudo apt install python3 python3-pip python3-pytest
-          python3 --version
 
       - name: Run tests
-        run: pytest
+        run: /usr/bin/pytest
         
       - name: Run build script
         run: ./build.sh
