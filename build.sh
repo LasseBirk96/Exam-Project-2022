@@ -4,8 +4,13 @@ services=("BankingComponent" "UserComponent" "OrderComponent" "ProductComponent"
 
 for service in "${services[@]}"
 do
-    s=$(echo "$service" | tr '[:upper:]' '[:lower:]')
-    image="ghcr.io/lassebirk96/$s:latest"
-    docker build -t $image . --build-arg COMPONENT_PATH=$service
-    docker push $image
+    SERVICE=$(echo "$service" | tr '[:upper:]' '[:lower:]')
+    VERSION=$(git log -1 --pretty=%h)
+    REPO="ghcr.io/lassebirk96/$SERVICE:"
+    VERSIONTAG="$REPO$VERSION"
+    LATESTTAG="${REPO}latest"
+
+    docker build -t $VERSIONTAG -t $LATESTTAG . --build-arg COMPONENT_PATH=$service
+    docker push $VERSIONTAG
+    docker push $LATESTTAG
 done
