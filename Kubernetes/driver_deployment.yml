@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: drivers
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: drivers
+  template:
+    metadata:
+      labels:
+        app: drivers
+    spec:
+      containers:
+      - name: banking
+        image: exam-project-2022_drivers
+        ports:
+        - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drivers-entrypoint
+spec:
+  type: ClusterIP
+  selector:
+    app: drivers
+  ports:
+  - port: 8000

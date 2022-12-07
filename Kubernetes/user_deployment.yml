@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: users
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: banking
+        image: exam-project-2022_users
+        ports:
+        - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-entrypoint
+spec:
+  type: ClusterIP
+  selector:
+    app: users
+  ports:
+  - port: 8000
