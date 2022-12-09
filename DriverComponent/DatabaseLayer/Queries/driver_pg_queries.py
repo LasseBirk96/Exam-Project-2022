@@ -1,6 +1,6 @@
 '''THIS CLASS CONTAINS ALL METHODS THAT QUERY THE POSTGRES DATABASE'''
 import uuid
-from ..Connection.connect_to_postgres import establish_connection
+
 from flask_bcrypt import Bcrypt
 from flask import Flask
 from LogicLayer.Entities.Driver import Driver
@@ -9,7 +9,7 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 
-def persist_driver(first_name, last_name, password, age, email, phone_number):
+def persist_driver(first_name, last_name, password, age, email, phone_number, connection):
     '''This method persists a user'''
     driver_id = str(uuid.uuid4())
     hasher = HashMethods()
@@ -19,23 +19,19 @@ def persist_driver(first_name, last_name, password, age, email, phone_number):
         driver_id, first_name, last_name, age, phone_number,  email, hashed_password, points
     )
     persist_driver_query = "INSERT INTO drivers (driver_id, first_name, last_name, age, phonenumber, email, password, points) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    connection = establish_connection()
     cursor = connection.cursor()
-    # Execute the tuple with tables
     try:
         cursor.execute(persist_driver_query, driver.return_driver())
+        print(driver.return_driver())
         connection.commit()
-        return "Success"
+        return driver_id
     except (Exception) as error:
        return error
-    finally:
-        if connection is not None:
-            connection.close()
 
 
-def driver_login(driver_email, driver_password):
+
+def driver_login(driver_email, driver_password, connection):
     '''This method allows the user to log in'''
-    connection = establish_connection()
     cursor = connection.cursor()
     login_query = "SELECT driver_id, password FROM drivers WHERE email = %s"
     try:
@@ -46,20 +42,15 @@ def driver_login(driver_email, driver_password):
         if hasher.check_hashed_value(driver_password, sql_data_password):
             print(type(entries[0]))
             return entries[0]
-        else:
-            return "INVALID LOG-IN"
     except (Exception) as error:
        return error
-    finally:
-        if connection is not None:
-            connection.close()
 
 
 
-def get_driver_by_id(driver_id):
+def get_driver_by_id(driver_id, connection):
     '''This allows us to get the driver by their id'''
-    conn = establish_connection()
-    cur = conn.cursor()
+    
+    cur = connection.cursor()
     driver_delete_query = "SELECT * FROM drivers WHERE driver_id = %s"
     try:
         cur.execute(driver_delete_query, (driver_id,))
@@ -67,8 +58,33 @@ def get_driver_by_id(driver_id):
         return driver
     except (Exception) as error:
         print("ERROR IN selecting", error)
-    finally:
-        if conn is not None:
-            conn.close()
 
+
+def get_points_by_id(driver_id, connection):
+    cursor = connection.cursor()
+    get_points_query = "SELECT points FROM drivers where driver_id = %s"
+    try:
+        cursor.execute(get_points_query, (driver_id,))
+        driver = cursor.fetchall()[0]
+        return driver[0]
+    except (Exception) as error:
+        print("ERROR IN selecting", error)
+    finally:
+        if connection is not None:
+            connection.close()
+
+
+def update_driver_points(driver_id, points, current_points, connection):
+    new_total = current_points + points
+    cursor = connection.cursor()
+    update_points_query = "UPDATE drivers SET points = %s where driver_id = %s"
+    try: 
+        cursor.execute(update_points_query, (new_total, driver_id))
+        connection.commit()
+        return new_total
+    except (Exception) as error:
+        print("ERROR IN selecting", error)
+    finally:
+        if connection is not None:
+            connection.close()
 

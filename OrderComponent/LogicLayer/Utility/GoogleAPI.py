@@ -34,7 +34,7 @@ class GoogleAPI:
     def get_delivery_information(self, users_address, resturant_address, products):
         distance = self.__get_distance(users_address, resturant_address)
         time_as_number = self.__get_time_based_on_distance(users_address, resturant_address) + self.__get_time_based_on_products(products)
-        time_as_string = str(time_as_number) + "m"
+        time_as_string = str(time_as_number) + "minutes"
         return {"distance":distance, "time":time_as_string }
 
 

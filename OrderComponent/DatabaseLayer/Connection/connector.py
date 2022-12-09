@@ -12,7 +12,7 @@ def connect_to_collection():
 
     client = MongoClient(dsn, uuidRepresentation="standard")
     database = client["Exam2022"]
-    collection = database["Active Orders"]
+    collection = database["active orders"]
     return collection
 
 

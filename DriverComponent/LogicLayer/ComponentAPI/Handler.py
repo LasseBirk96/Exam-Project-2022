@@ -1,8 +1,8 @@
-from DatabaseLayer.Queries import driver_queries
+from DatabaseLayer.Queries import driver_pg_queries
 from DriverLogger.logger_creator import create_logger as log
 from LogicLayer.Security import user_jwt
 from flask import Flask, request, jsonify
-
+from .HandlerUtility.PointCalculator import PointCalculator
 
 #NEEDS LOGGING
 class Handler:
@@ -10,7 +10,7 @@ class Handler:
         pass
 
     def handle_persist_driver(data):
-            driver = driver_queries.persist_driver(
+            driver = driver_pg_queries.persist_driver(
                 data.get("first_name"),
                 data.get("last_name"),
                 data.get("password"),
@@ -22,9 +22,22 @@ class Handler:
  
 
     def handle_driver_login(data):
-            driver_id = driver_queries.driver_login(
+            driver_id = driver_pg_queries.driver_login(
                 data.get("email"),
                 data.get("password")
             )
             return jsonify(user_jwt.get_access_token(driver_id))
+
+    def handle_driver_points(driver_id):
+        points = driver_pg_queries.get_points_by_id(driver_id)
+        return jsonify(points)
+
+
+    def handle_give_points(data):
+        points = PointCalculator().calculate_points(data.get("order_id"))
+        driver = driver_pg_queries.update_driver_points(points, data.get("driver_id"))
+
+        return jsonify(driver)
+
+
 

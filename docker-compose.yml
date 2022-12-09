@@ -11,81 +11,106 @@ services:
     ports:
       - 5432:5432
     networks:
-      - banking
-      - users
-      - products
+      # - banking
+      # - users
+      # - products
       - drivers
 
-  # mongo:
-  #   container_name: Mongo
+  mongo:
+    container_name: Mongo
+    restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+    ports:
+      - "27017:27017"
+    networks:
+      - orders
+      - drivers
+
+  # kong:
+  #   container_name: Kong
+  #   image: kong:3.0.0-alpine
   #   restart: always
-  #   image: mongo:latest
   #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: dev
-  #     MONGO_INITDB_ROOT_PASSWORD: dev
+  #     KONG_DATABASE: "off"
+  #     KONG_PROXY_ACCESS_LOG: /dev/stdout
+  #     KONG_ADMIN_ACCESS_LOG: /dev/stdout
+  #     KONG_PROXY_ERROR_LOG: /dev/stderr
+  #     KONG_ADMIN_ERROR_LOG: /dev/stderr
+  #     KONG_ADMIN_LISTEN: '0.0.0.0:8001'
+  #     KONG_LOG_LEVEL: warn
+  #     KONG_DECLARATIVE_CONFIG: '/usr/local/kong/declarative/kong.yml'
   #   ports:
-  #     - "27017:27017"
-  #   networks:
-  #     - orders
+  #     - "8000:8000"
+  #     - "8443:8443"
+  #     - "8001:8001"
+  #     - "8444:8444"
+  #     - "8002:8002"
+  #     - "8445:8445"
+
+  #   volumes:
+  #     - ./kong.yml:/usr/local/kong/declarative/kong.yml
   
-  banking:
-     build: 
-       context: .
-       args:
-         - COMPONENT_PATH=BankingComponent
-     container_name: BankingComponent
-     environment:
-       # POSTGRES
-       - POSTGRES_HOST=postgres
-       - POSTGRES_PORT=5432
-       - POSTGRES_USER=dev
-       - POSTGRES_PASSWORD=dev123
-       - POSTGRES_DB=eksamen
-     depends_on:
-       - postgres
-     ports:
-       - 5000:5000
-     networks:
-       - banking
+  # banking:
+  #    build: 
+  #      context: .
+  #      args:
+  #        - COMPONENT_PATH=BankingComponent
+  #    container_name: BankingComponent
+  #    environment:
+  #      # POSTGRES
+  #      - POSTGRES_HOST=postgres
+  #      - POSTGRES_PORT=5432
+  #      - POSTGRES_USER=dev
+  #      - POSTGRES_PASSWORD=dev123
+  #      - POSTGRES_DB=eksamen
+  #    depends_on:
+  #      - postgres
+  #    ports:
+  #      - 5000:5000
+  #    networks:
+  #      - banking
 
-  users:
-     build: 
-       context: .
-       args:
-         - COMPONENT_PATH=UserComponent
-     container_name: UserComponent
-     environment:
-       # POSTGRES
-       - POSTGRES_HOST=postgres
-       - POSTGRES_PORT=5432
-       - POSTGRES_USER=dev
-       - POSTGRES_PASSWORD=dev123
-       - POSTGRES_DB=eksamen
-     depends_on:
-       - postgres
-     ports:
-       - 5001:5001
-     networks:
-       - users
+  # users:
+  #    build: 
+  #      context: .
+  #      args:
+  #        - COMPONENT_PATH=UserComponent
+  #    container_name: UserComponent
+  #    environment:
+  #      # POSTGRES
+  #      - POSTGRES_HOST=postgres
+  #      - POSTGRES_PORT=5432
+  #      - POSTGRES_USER=dev
+  #      - POSTGRES_PASSWORD=dev123
+  #      - POSTGRES_DB=eksamen
+  #    depends_on:
+  #      - postgres
+  #    ports:
+  #      - 5001:5001
+  #    networks:
+  #      - users
 
 
-  # orders:
-  #   build: 
-  #     context: .
-  #     args:
-  #       - COMPONENT_PATH=OrderComponent
-  #   container_name: OrderComponent
-  #   environment:
-  #     - MONGO_HOST=mongo
-  #     - MONGO_USER=dev
-  #     - MONGO_PASSWORD=dev
-  #     - MONGO_PORT=27017
-  #   depends_on:
-  #     - mongo
-  #   ports:
-  #     - 5002:5002
-  #   networks:
-  #     - orders
+  orders:
+    build: 
+      context: .
+      args:
+        - COMPONENT_PATH=OrderComponent
+    container_name: OrderComponent
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_USER=dev
+      - MONGO_PASSWORD=dev
+      - MONGO_PORT=27017
+    depends_on:
+      - mongo
+    ports:
+      - 5002:5002
+    networks:
+      - orders
 
   # products:
   #   build: 
@@ -121,6 +146,11 @@ services:
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=dev123
       - POSTGRES_DB=eksamen
+      # MONGO
+      - MONGO_HOST=mongo
+      - MONGO_USER=dev
+      - MONGO_PASSWORD=dev
+      - MONGO_PORT=27017
     depends_on:
       - postgres
       - mongo
@@ -132,10 +162,14 @@ services:
 networks:
   # banking: 
   # users:
-  # orders:
+  orders:
   # products:
   drivers:
   
+
+
+
+
 
     # bankingimage:
   #   image: ghcr.io/lassebirk96/bankingcomponent:latest
