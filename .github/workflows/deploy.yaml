@@ -22,8 +22,8 @@ jobs:
           sudo apt install python3 python3-pip python3-pytest
           sudo apt-get install python3-flask-bcrypt
           sudo apt-get install python3-pip
-          sudo pip3 install Psycopg2
          
+          sudo pip3 install psycopg
           sudo pip3 install pytest-postgresql
           
 
