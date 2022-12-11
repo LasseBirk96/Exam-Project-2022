@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: banking
-        image: exam-project-2022_drivers
+        image: exam-project-2022-drivers
         ports:
         - containerPort: 8000
 
