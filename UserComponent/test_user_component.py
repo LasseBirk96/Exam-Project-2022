@@ -1,7 +1,6 @@
 import sys
 
 sys.path.append("..")
-
 from DatabaseLayer.Queries.user_queries import (
 persist_user, user_login, get_user_by_id
 )

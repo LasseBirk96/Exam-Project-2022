@@ -1,7 +1,6 @@
 import sys
 
 sys.path.append("..")
-
 from DatabaseLayer.Queries.bank_account_queries import (
 persist_bank_account, handle_payment
 )
