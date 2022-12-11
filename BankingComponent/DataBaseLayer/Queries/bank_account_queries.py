@@ -2,13 +2,15 @@ import sys
 
 sys.path.append("..")
 from ..Utility.HashMethods import HashMethods
-from ..Connection.connector import establish_connection
+from ..Connection import connector
 from LogicLayer.Entities.BankAccount import BankAccount
 from BankingLogger.logger_creator import create_logger as log
 
 
-def persist_bank_account(email, account_number, CVV, pin_code, balance):
+def persist_bank_account(email, account_number, CVV, pin_code, balance, connection = None):
     """This method persists a bank account"""
+    if connection == None:
+        connection = connector.establish_connection()
     hasher = HashMethods()
     hashed_account_number = hasher.hash_value(account_number)
     hashed_CVV = hasher.hash_value(CVV)
@@ -17,63 +19,53 @@ def persist_bank_account(email, account_number, CVV, pin_code, balance):
         email, hashed_account_number, hashed_CVV, hashed_pin_code, balance
     )
     sql_query = "INSERT INTO bank_account (email, account_number, CVV, pin_code, balance) VALUES (%s, %s, %s, %s, %s)"
-    connection = establish_connection()
     cursor = connection.cursor()
     try:
         cursor.execute(sql_query, bank_account.return_account())
         connection.commit()
-        log().info("COMMITTED ACCOUNT " + email + " TO DATABASE")
-        return "Your account has been made succesfully"
+        return "Success"
     except (Exception) as error:
-        log().error("ERROR IN persist_bank_account: " + str(error))
-    finally:
-        if connection is not None:
-            connection.close()
+        return error
 
 
-def handle_payment(email, account_number, CVV, pin_code, price):
-    if validate_data(email, account_number, CVV, pin_code):
-        current_balance = get_balance_from_account(email)
+def handle_payment(email, account_number, CVV, pin_code, price, connection = None):
+    if connection == None:
+        connection = connector.establish_connection()
+    if validate_data(email, account_number, CVV, pin_code, connection):
+        current_balance = get_balance_from_account(email, connection)
         if price > current_balance:
             return "Can't make payment, not enough money in the account"
-        connection = establish_connection()
         cursor = connection.cursor()
         try:
             sql_query = "UPDATE bank_account SET balance = %s WHERE email = %s"
             new_balance = current_balance - price
             cursor.execute(sql_query, (new_balance, email))
             connection.commit()
-            log().info("ACCOUNT: " + email + " SUCCESSFUL PAYMENT")
-            return "Payment Complete!"
+            return "Success"
         except (Exception) as error:
-            log().error("ERROR IN handle_payment: " + str(error))
-        finally:
-            if connection is not None:
-                connection.close()
+            return error
 
 
-def get_balance_from_account(email):
+def get_balance_from_account(email, connection = None):
+    if connection == None:
+        connection = connector.establish_connection()
     sql_query = "SELECT balance FROM bank_account WHERE email = %s"
-    connection = establish_connection()
     cursor = connection.cursor()
     try:
         cursor.execute(sql_query, (email,))
         returned_balance = cursor.fetchone()
         balance = returned_balance[0]
-        log().info("GOT BALANCE FROM ACCOUNT: " + email)
         return balance
     except (Exception) as error:
-        log().error("ERROR IN get_balance_from_account: " + str(error))
-    finally:
-        if connection is not None:
-            connection.close()
+        return error
 
 
-def validate_data(email, account_number, CVV, pin_code):
+def validate_data(email, account_number, CVV, pin_code, connection = None):
+    if connection == None:
+        connection = connector.establish_connection()
     sql_query = (
         "SELECT account_number, CVV, pin_code FROM bank_account WHERE email = %s"
     )
-    connection = establish_connection()
     cursor = connection.cursor()
     hasher = HashMethods()
     try:
@@ -88,25 +80,19 @@ def validate_data(email, account_number, CVV, pin_code):
                 hasher.check_hashed_value(CVV, CVV_from_db),
                 hasher.check_hashed_value(pin_code, pin_code_from_db)
             ]):
-                log().info("DATA VALIDATED ON ACCOUNT: " + email)
                 return True
     except (Exception) as error:
-        log().error("ERROR IN validate_data: " + str(error))
-    finally:
-        if connection is not None:
-            connection.close()
+        return error
 
 
-def delete_account_on_email(email):
+
+def delete_account_on_email(email, connection = None):
+    if connection == None:
+        connection = connector.establish_connection()
     sql_query = "DELETE FROM bank_account WHERE email = %s"
-    connection = establish_connection()
     cursor = connection.cursor()
     try:
         cursor.execute(sql_query, (email,))
         connection.commit()
-        return log().info("DELETED ACCOUNT: " + email)
     except (Exception) as error:
-        log().error("ERROR IN delete_user_on_email: " + str(error))
-    finally:
-        if connection is not None:
-            connection.close()
+        return error

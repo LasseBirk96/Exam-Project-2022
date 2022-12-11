@@ -13,26 +13,34 @@ class Handler:
     def handle_persist_bank_account(data):
         sanitizer = InputSanitizer()
         if sanitizer.clean_input(data):
-            bank_account = bank_account_queries.persist_bank_account(
-                data.get("email"),
-                data.get("account_number"),
-                data.get("CVV"),
-                data.get("pin_code"),
-                data.get("balance"),
-            )
-            return jsonify(bank_account)
+            try:
+                bank_account = bank_account_queries.persist_bank_account(
+                    data.get("email"),
+                    data.get("account_number"),
+                    data.get("CVV"),
+                    data.get("pin_code"),
+                    data.get("balance"),
+                )
+                return jsonify(bank_account)
+            except (Exception) as error:
+                log().info(error)
+                return "Could not create your account"
         return "Invalid input"
 
 
     def handle_bank_payment(data):
         sanitizer = InputSanitizer()
         if sanitizer.clean_input(data):
-            bank_account = bank_account_queries.handle_payment(
-                data.get("email"),
-                data.get("account_number"),
-                data.get("CVV"),
-                data.get("pin_code"),
-                data.get("price")
-            )
-            return jsonify(bank_account)
+            try: 
+                bank_account = bank_account_queries.handle_payment(
+                    data.get("email"),
+                    data.get("account_number"),
+                    data.get("CVV"),
+                    data.get("pin_code"),
+                    data.get("price")
+                )
+                return jsonify(bank_account)
+            except (Exception) as error:
+                log().info(error)
+                return "Could not handle payment"
         return "invalid input"

@@ -1,6 +1,7 @@
 import sys
 
 sys.path.append("..")
+
 from DatabaseLayer.Queries.user_queries import (
 persist_user, user_login, get_user_by_id
 )
@@ -24,11 +25,15 @@ def test_persist_user(postgresql):
     )
 
     # Act
-    persist_user("lasse", "Birk", "adf", "12", "test@gmail.com", "2323", postgresql)
+    
+    persist_user("test", "test", "egonOlsen", 55, "test@test.com",  "3331133", postgresql)
+    persist_user("test", "test", "egonOlsen", 55, "test1@test.com",  "313311133", postgresql)
+    persist_user("test", "test", "egonOlsen", 55, "test2@test.com",  "31311333", postgresql)
     cur.execute("SELECT * FROM users;")
 
     # Assert
-    assert len(cur.fetchall()) == 1
+    assert len(cur.fetchall()) == 3
+
 
 
 def test_user_login(postgresql):
@@ -75,11 +80,10 @@ def test_get_user_by_id(postgresql):
     user_id = persist_user(
         "lasse", "Birk", "adf", "12", "test@gmail.com", "2323", postgresql
     )
-    
+
 
     # Act
     user = get_user_by_id(user_id, postgresql)
-    print(user)
-
+    
     # Assert
     assert user is not None

@@ -10,6 +10,7 @@ class Handler:
         pass
 
     def handle_persist_driver(data):
+        try:
             driver = driver_pg_queries.persist_driver(
                 data.get("first_name"),
                 data.get("last_name"),
@@ -19,15 +20,22 @@ class Handler:
                 data.get("phone_number")
             )
             return jsonify(driver)
- 
+        except (Exception) as error:
+            log().info(error)
+            return "There was an error trying to create your account, please contact the admin"
 
     def handle_driver_login(data):
+        try:
             driver_id = driver_pg_queries.driver_login(
                 data.get("email"),
                 data.get("password")
             )
             return jsonify(user_jwt.get_access_token(driver_id))
+        except (Exception) as error:
+            log().info(error)
+            return "There was an error trying to log in into your account, please contact the admin"
 
+            
     def handle_driver_points(driver_id):
         points = driver_pg_queries.get_points_by_id(driver_id)
         return jsonify(points)

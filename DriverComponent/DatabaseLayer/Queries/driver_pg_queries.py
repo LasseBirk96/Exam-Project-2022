@@ -1,16 +1,19 @@
 '''THIS CLASS CONTAINS ALL METHODS THAT QUERY THE POSTGRES DATABASE'''
 import uuid
-
-from flask_bcrypt import Bcrypt
-from flask import Flask
 from LogicLayer.Entities.Driver import Driver
 from ..Utility.HashMethods import HashMethods
+from DatabaseLayer.Connection import connect_to_postgres
+from flask_bcrypt import Bcrypt
+from flask import Flask
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 
-def persist_driver(first_name, last_name, password, age, email, phone_number, connection):
+def persist_driver(first_name, last_name, password, age, email, phone_number, connection = None):
     '''This method persists a user'''
+    if connection == None:
+        connection = connect_to_postgres.establish_connection()
     driver_id = str(uuid.uuid4())
     hasher = HashMethods()
     hashed_password = hasher.hash_value(password)
@@ -30,8 +33,10 @@ def persist_driver(first_name, last_name, password, age, email, phone_number, co
 
 
 
-def driver_login(driver_email, driver_password, connection):
+def driver_login(driver_email, driver_password, connection = None):
     '''This method allows the user to log in'''
+    if connection == None:
+        connection = connect_to_postgres.establish_connection()
     cursor = connection.cursor()
     login_query = "SELECT driver_id, password FROM drivers WHERE email = %s"
     try:
@@ -47,7 +52,9 @@ def driver_login(driver_email, driver_password, connection):
 
 
 
-def get_driver_by_id(driver_id, connection):
+def get_driver_by_id(driver_id, connection = None):
+    if connection == None:
+        connection = connect_to_postgres.establish_connection()
     '''This allows us to get the driver by their id'''
     
     cur = connection.cursor()
@@ -60,7 +67,9 @@ def get_driver_by_id(driver_id, connection):
         print("ERROR IN selecting", error)
 
 
-def get_points_by_id(driver_id, connection):
+def get_points_by_id(driver_id, connection = None):
+    if connection == None:
+        connection = connect_to_postgres.establish_connection()
     cursor = connection.cursor()
     get_points_query = "SELECT points FROM drivers where driver_id = %s"
     try:
@@ -74,7 +83,9 @@ def get_points_by_id(driver_id, connection):
             connection.close()
 
 
-def update_driver_points(driver_id, points, current_points, connection):
+def update_driver_points(driver_id, points, current_points, connection = None):
+    if connection == None:
+        connection = connect_to_postgres.establish_connection()
     new_total = current_points + points
     cursor = connection.cursor()
     update_points_query = "UPDATE drivers SET points = %s where driver_id = %s"

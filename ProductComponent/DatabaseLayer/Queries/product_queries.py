@@ -1,14 +1,17 @@
 '''THIS CLASS CONTAINS ALL METHODS THAT QUERY THE POSTGRES DATABASE'''
-
+from LogicLayer.Entities.Product import Product
+from DatabaseLayer.Connection import connector
 from flask_bcrypt import Bcrypt
 from flask import Flask, request, jsonify
-from LogicLayer.Entities.Product import Product
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 
-def persist_product(product_name, description, ingredients, price, connection):
+def persist_product(product_name, description, ingredients, price, connection = None):
     '''This method persists a product'''
+    if connection == None:
+        connection = connector.establish_connection()
     product = Product(product_name, description, ingredients, price)
     persist_user_query = "INSERT INTO products (product_name, product_description, ingredients, price) VALUES (%s, %s, %s, %s)"
     cursor = connection.cursor()
@@ -21,8 +24,10 @@ def persist_product(product_name, description, ingredients, price, connection):
 
 
 
-def delete_product(product_name, connection):
+def delete_product(product_name, connection = None):
     '''This allows us to delete a product'''
+    if connection == None:
+        connection = connector.establish_connection()
 
     cursor = connection.cursor()
     product_delete_query = "DELETE FROM products WHERE product_name = %s"
@@ -36,7 +41,9 @@ def delete_product(product_name, connection):
 
 
 #MAYBE MAKE THIS RETURN EVERYTHING AS DICTS IF NEEDED
-def get_products(connection):
+def get_products(connection = None):
+    if connection == None:
+        connection = connector.establish_connection()
     cursor = connection.cursor()
     get_products_query = "SELECT * FROM products"
     try:

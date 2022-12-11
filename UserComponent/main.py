@@ -5,7 +5,7 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from DatabaseLayer.Setup import user_setup
+from DatabaseLayer.Setup import table_setup
 
 
 
@@ -19,6 +19,6 @@ def home():
     return "<h1>USERS ARE RUNNING</h1>"
 
 if __name__ == "__main__":
-    user_setup.run_setup()
+    table_setup.set_up_user_table()
     port = int(os.environ.get("PORT", 5001))
     app.run(debug=False, host="0.0.0.0", port=port)
