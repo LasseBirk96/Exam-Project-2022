@@ -1,11 +1,11 @@
 import sys
-
+import pytest
 sys.path.append("..")
 from DatabaseLayer.Queries.bank_account_queries import (
 persist_bank_account, handle_payment
 )
 
-
+@pytest.fixture
 def test_persist_bank_account(postgresql):
     # Arrange
     cur = postgresql.cursor()
