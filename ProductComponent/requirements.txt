@@ -3,6 +3,7 @@ Flask_RESTful==0.3.9
 Flask_Bcrypt==0.7.1
 psycopg2==2.9.3
 psycopg2-binary==2.9.3
+psycopg-binary==3.1.4
 Werkzeug==2.0.0
 PyJWT==2.4.0
 pytest-postgresql==4.1.1
