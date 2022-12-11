@@ -23,10 +23,11 @@ jobs:
           sudo apt-get install python3-flask-bcrypt
           sudo apt-get install python3-pip
           sudo apt install python3-dev libpq-dev
+          sudo pip3 install postgresql
           sudo pip3 install psycopg2
           sudo pip3 install psycopg
           sudo pip3 install pytest-postgresql
-          sudo apt-get install postgresql
+          
           
 
       - name: Run tests
