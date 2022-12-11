@@ -9,3 +9,5 @@ PyJWT==2.4.0
 python-decouple
 pymongo
 python-dotenv
+pytest-postgresql==4.1.1
+psycopg==3.1.4
