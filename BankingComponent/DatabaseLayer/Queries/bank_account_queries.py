@@ -8,10 +8,10 @@ from LogicLayer.Entities.BankAccount import BankAccount
 from BankingLogger.logger_creator import create_logger as log
 
 
-def persist_bank_account(email, account_number, CVV, pin_code, balance, connection = None):
+def persist_bank_account(email, account_number, CVV, pin_code, balance, connection):
     """This method persists a bank account"""
-    if connection == None:
-        connection = connector.establish_connection()
+    # if connection == None:
+    #     connection = connector.establish_connection()
     hasher = HashMethods()
     hashed_account_number = hasher.hash_value(account_number)
     hashed_CVV = hasher.hash_value(CVV)
