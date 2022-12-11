@@ -24,10 +24,11 @@ jobs:
           sudo apt-get install python3-pip
           sudo apt install python3-dev libpq-dev
           sudo apt install postgresql
-          sudo systemctl start postgresql.service
           sudo pip3 install psycopg2-binary
           sudo pip3 install psycopg
           sudo pip3 install pytest-postgresql
+          sudo systemctl start postgresql.service
+
           
           
 
