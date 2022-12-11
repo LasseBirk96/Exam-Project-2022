@@ -86,4 +86,4 @@ def test_get_user_by_id(postgresql):
     user = get_user_by_id(user_id, postgresql)
     
     # Assert
-    assert user is not None
+    assert user is  None
