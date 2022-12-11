@@ -23,7 +23,7 @@ jobs:
           sudo apt-get install python3-flask-bcrypt
           sudo apt-get install python3-pip
           sudo apt install python3-dev libpq-dev
-          sudo apt install postgresql postgresql-contrib
+          sudo apt install postgresql
           sudo systemctl start postgresql.service
           sudo pip3 install psycopg2-binary
           sudo pip3 install psycopg
