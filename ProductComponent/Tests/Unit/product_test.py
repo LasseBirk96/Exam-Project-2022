@@ -1,10 +1,6 @@
-import sys
-
-sys.path.append("..")
 from DatabaseLayer.Queries.product_queries import (
 persist_product, delete_product, get_products
 )
-
 
 def test_persist_product(postgresql):
     # Arrange
@@ -45,11 +41,15 @@ def test_delete_product(postgresql):
     )
     persist_product("Orange Juice", "Incredibly disgusting acid", ["Filth", "oranges"], "30", postgresql)
 
+    # Assert
+    cur.execute("SELECT * FROM products;")
+    assert len(cur.fetchall()) == 1
+
     # Act
     delete_product("Orange Juice", postgresql)
-    cur.execute("SELECT * FROM products;")
 
     # Assert
+    cur.execute("SELECT * FROM products;")
     assert len(cur.fetchall()) == 0
 
 
@@ -74,7 +74,6 @@ def test_get_product(postgresql):
 
     # Act
     products = get_products(postgresql)
-    
 
     # Assert
     assert len(products) == 3
