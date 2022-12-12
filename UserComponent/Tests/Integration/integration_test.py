@@ -87,3 +87,4 @@ def test_get_user_by_id(postgresql):
     
     # Assert
     assert user is not None
+
