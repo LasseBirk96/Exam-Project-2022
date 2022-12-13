@@ -5,6 +5,8 @@ class InputSanitizer:
         pass
 
     def clean_email(self, email):
+        if email == None:
+            return True
         """Checks if the email is valid"""
         regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
         if re.match(regex, email):
@@ -13,6 +15,8 @@ class InputSanitizer:
 
 
     def clean_name(self, name):
+        if name == None:
+            return True
         regex = r"\b^[a-zA-Z]+$\b"
         if re.match(regex, name):
             return True
@@ -20,6 +24,8 @@ class InputSanitizer:
 
 
     def clean_age(self, age):
+        if age == None:
+            return True
         regex = r"\b[0-9]{1,3}\b"
         if re.match(regex, age):
             return True
@@ -27,7 +33,9 @@ class InputSanitizer:
         return False
 
 
-    def clean_phone_number(self, phone_number):
+    def clean_phonenumber(self, phone_number):
+        if phone_number == None:
+            return True
         regex = r"\b[0-9]{8}\b"
         if re.match(regex, phone_number):
             return True
@@ -43,7 +51,7 @@ class InputSanitizer:
                 self.clean_age(data.get("age")),
                 self.clean_name(data.get("first_name")),
                 self.clean_name(data.get("last_name")),
-                self.clean_phone_number(data.get("phone_number"))
+                self.clean_phonenumber(data.get("phone_number"))
             ]
         ): 
             return True

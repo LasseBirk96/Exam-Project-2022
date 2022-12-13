@@ -40,10 +40,7 @@ def user_login(user_email, user_password, connection = None):
         sql_data_password = entries[1]
         hasher = HashMethods()
         if hasher.check_hashed_value(user_password, sql_data_password):
-            
             return entries[0]
-        else:
-            return "INVALID LOG-IN"
     except (Exception) as error:
        return error
 

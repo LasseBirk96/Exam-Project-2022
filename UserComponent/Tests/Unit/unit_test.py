@@ -42,13 +42,13 @@ def test_clean_age_false_postive():
 #CLEAN PHONENUMBER
 def test_clean_phonenumber():
     sanitizer = InputSanitizer()
-    value = sanitizer.clean_phone_number("12345678")
+    value = sanitizer.clean_phonenumber("12345678")
     assert value == True
 
 
 def test_clean_phonenumber_false_positive():
     sanitizer = InputSanitizer()
-    value = sanitizer.clean_phone_number("1wefwef")
+    value = sanitizer.clean_phonenumber("1wefwef")
     assert value == False
 
 
