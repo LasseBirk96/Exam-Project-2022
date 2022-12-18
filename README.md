@@ -1,6 +1,5 @@
 # Exam Project 2022
 
-##IKKE DONE, MANGLER AT FÆRDIGØRE OG RETTE OG STUFF
 
 ## Brief System Walk-through
 
@@ -54,10 +53,7 @@ We admit that this diagram can be a bit confusing to follow, so we will provide 
 
 7. This is our requirement file, that is used when building the component in our CI/CD.
 
-## Integration Development
-The system has been developed using various agile methods such as Scrum and XP. One component of the system was created at a time and was then connected to the other components of the system after creation.
-
-
-The entire point of the integration design is that a component can easily be removed, updated, or added, without having any effect or the functionality of the other components. 
+## Integration Development And Considerations
+The system has been developed using various agile methods such as Scrum and XP. One component of the system was created at a time and was then connected to the other components of the system after creation. The entire point of the integration design is that a component can easily be removed, updated, or added, without having any effect on the functionality of the other components. Other relevant design considerations have been mentioned in the video for this exam.
 
 
