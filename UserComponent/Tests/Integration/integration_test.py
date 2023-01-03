@@ -7,6 +7,7 @@ persist_user, user_login, get_user_by_id
 )
 
 
+
 def test_persist_user(postgresql):
     # Arrange
     cur = postgresql.cursor()

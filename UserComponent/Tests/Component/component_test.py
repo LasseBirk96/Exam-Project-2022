@@ -2,7 +2,6 @@ from LogicLayer.ComponentAPI.Handler import Handler
 
 
 def test_handle_persist_user(postgresql):
-    '''This test should return True, as the input is correct'''
     # Arrange
     cur = postgresql.cursor()
     cur.execute(
@@ -38,7 +37,6 @@ def test_handle_persist_user(postgresql):
     assert len(cur.fetchall()) == 1
 
 def test_handle_persist_user_false_positive(postgresql):
-    '''This test should return False, as the input is not correct'''
     # Arrange
     cur = postgresql.cursor()
     cur.execute(
@@ -75,7 +73,6 @@ def test_handle_persist_user_false_positive(postgresql):
 
 
 def test_handle_user_login(postgresql):
-    '''This test should return not None, as the input is correct'''
     # Arrange
     cur = postgresql.cursor()
     cur.execute(
@@ -114,7 +111,6 @@ def test_handle_user_login(postgresql):
 
 
 def test_handle_user_login_false_positive(postgresql):
-    '''This test should return None, as the input is incorrect'''
     # Arrange
     cur = postgresql.cursor()
     cur.execute(

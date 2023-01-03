@@ -2,6 +2,7 @@ from DatabaseLayer.Queries.product_queries import (
 persist_product, delete_product, get_products
 )
 
+
 def test_persist_product(postgresql):
     # Arrange
     cur = postgresql.cursor()

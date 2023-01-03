@@ -23,7 +23,7 @@ class Handler:
                     data.get("phone_number"),
                     connection
                 )
-                return True
+                return "Success"
             except (Exception) as error:
                 log().error(error)
                 return False
@@ -35,7 +35,7 @@ class Handler:
         if sanitizer.clean_input(data):
             try:
                 user_id = user_queries.user_login(data.get("email"), data.get("password"), connection)
-                return user_jwt.get_access_token(user_id)
+                return jsonify(user_jwt.get_access_token(user_id))
             except (Exception) as error:
                 log().error(error)
                 return None

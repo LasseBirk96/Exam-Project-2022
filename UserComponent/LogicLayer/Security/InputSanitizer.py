@@ -17,7 +17,7 @@ class InputSanitizer:
     def clean_name(self, name):
         if name == None:
             return True
-        regex = r"\b^[a-zA-Z]+$\b"
+        regex = r"\b^[a-zA-Z_]+$\b"
         if re.match(regex, name):
             return True
         return False

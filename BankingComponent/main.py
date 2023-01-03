@@ -5,7 +5,7 @@ from flask import Flask
 from flask_restful import Api
 
 sys.path.append("..")
-from DatabaseLayer.Setup import postgres_setup
+from DatabaseLayer.Setup import table_setup
 
 
 app = Flask(__name__)
@@ -19,6 +19,6 @@ def home():
     return "<h1>BANKING IS RUNNING</h1>"
 
 if __name__ == "__main__":
-    postgres_setup.run_setup()
+    table_setup.setup_bank_account_table()
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host="0.0.0.0", port=port)
